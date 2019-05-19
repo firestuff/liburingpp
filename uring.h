@@ -13,6 +13,8 @@ class URing {
   URing(uint32_t num_entries);
   ~URing();
 
+  void nop(const std::function<void(int32_t res)> &callback);
+
   // TODO: write/writev don't work for files because they always use offset 0
   void write(int fd, const void *buf, size_t count,
              const std::function<void(int32_t res)> &callback);

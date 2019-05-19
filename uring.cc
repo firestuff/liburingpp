@@ -39,6 +39,13 @@ bool URing::Try() {
   return false;
 }
 
+void URing::nop(const std::function<void(int32_t res)> &callback) {
+  auto *entry = GetEntry(callback);
+  auto *sqe = GetSQE();
+  io_uring_prep_nop(sqe);
+  io_uring_sqe_set_data(sqe, reinterpret_cast<void *>(entry));
+}
+
 void URing::write(int fd, const void *buf, size_t count,
                   const std::function<void(int32_t res)> &callback) {
   std::vector<iovec> vecs{
